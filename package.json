@@ -1,6 +1,6 @@
 {
   "name": "chatgpt-desktop",
-  "productName": "chatgpt-desktop",
+  "productName": "ChatGPT Desktop",
   "version": "1.0.0",
   "description": "Augmented ChatGPT (Windows, Mac, Linux Desktop Application). ChatGPT桌面端增强版",
   "main": "dist/build/main.js",

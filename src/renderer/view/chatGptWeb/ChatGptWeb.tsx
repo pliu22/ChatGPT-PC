@@ -87,7 +87,16 @@ export const ChatGPTWeb =  forwardRef((props, ref) => {
         console.log("ipc-message", event);
         // Prints "xxxx"
       });
-      setShowFloatBox(true);
+      if(webviewRef.current.getURL() === 'https://chat.openai.com/') {
+        setShowFloatBox(true);
+      } else {
+        const timer = setInterval(() => {
+          if(webviewRef.current.getURL() === 'https://chat.openai.com/') {
+            setShowFloatBox(true);
+            clearInterval(timer);
+          }
+        }, 1000)
+      }
     });
   });
 

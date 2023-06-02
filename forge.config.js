@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   packagerConfig: {
     appVersion: "1.0",
-    name: 'InspireHub',
+    name: 'ChatGPT Desktop',
     icon: './public/logo'
   },
   rebuildConfig: {},
@@ -13,6 +13,7 @@ module.exports = {
       config: {
          // An URL to an ICO file to use as the application icon (displayed in Control Panel > Programs and Features).
          iconUrl: path.join(__dirname, 'public/logo.ico'),
+        //  iconUrl: path.join(__dirname, 'public/logo.icns'),
          // The ICO file to use as the icon for the generated Setup.exe
          setupIcon: path.join(__dirname, 'public/logo.ico'),
       },
