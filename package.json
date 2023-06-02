@@ -1,0 +1,41 @@
+{
+  "name": "chatgpt-desktop",
+  "productName": "chatgpt-desktop",
+  "version": "1.0.0",
+  "description": "Augmented ChatGPT (Windows, Mac, Linux Desktop Application). ChatGPT桌面端增强版",
+  "main": "dist/build/main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
+  },
+  "author": {
+    "name": "steveliu",
+    "email": "liupeirong@ucla.edu"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.1.1",
+    "@electron-forge/maker-deb": "^6.1.1",
+    "@electron-forge/maker-rpm": "^6.1.1",
+    "@electron-forge/maker-squirrel": "^6.1.1",
+    "@electron-forge/maker-zip": "^6.1.1",
+    "@electron-forge/plugin-vite": "^6.1.1",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
+    "electron": "24.3.0"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.1.4",
+    "@vitejs/plugin-react": "^4.0.0",
+    "antd": "^5.5.0",
+    "axios": "^1.4.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "styled-components": "^6.0.0-rc.1"
+  }
+}
