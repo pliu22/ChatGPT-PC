@@ -1,33 +1,3 @@
-## TODO
+# ChatGPT Desktop
 
-1. chatGPT部分
-
-    1. 流式响应 stream response
-
-    2. 文本识别和样式处理（识别代码块和片段）
-
-2. 整体框架
-
-    1. UI优化 
-
-# PluginHub: 集成了各类AI工具接口的本地工具盒
-
-## 使用指南
-
-### ChatGPT工具
-
--  chat聊天悬浮框（ctrl+shift+a 快捷键开启或关闭）
-
-- 多场景预设AI助手 
-
-### midjourney工具
-
-- 一键快捷进入对应channel，进行文生图操作
-
-### 语音合成工具
-
-- 本地通过语音脚本生成语音，可自定义语速、音调、音量、语言等
-
-### 插件助手
-
-- 加载自定义插件，实现各类定制化功能
+Augmented ChatGPT (Windows, Mac, Linux Desktop Application). ChatGPT桌面端增强版
