@@ -42,18 +42,21 @@ function addNewModels() {
   window.fetch = async function (url, options) {
     let res = await oldFetch.apply(this, [url, options]);
     if (url.toString().indexOf("/backend-api/models") !== -1) {
-      const data = await res.json();
-      data.models = data.models.map((model: any) => {
-        if (model.slug === "gpt-4-mobile") {
-          data.categories.push({
-            category: "gpt_4",
-            default_model: "gpt-4-mobile",
-            human_category_name: "GPT-4-Mobile",
-            subscription_level: "plus",
-          });
+      const data = await res.clone().json();
+      data.categories.map((category: any) => {
+        if (category.category === "gpt_4") {
+          category.default_model = "gpt-4";
         }
-        return model;
       });
+      if (data.models.find((model: any) => model.slug === "gpt-4-mobile")) {
+        data.categories.push({
+          category: "gpt_4",
+          default_model: "gpt-4-mobile",
+          human_category_name: "GPT-4-Mobile",
+          subscription_level: "plus",
+        });
+      }
+      console.log(data);
       res = new Response(JSON.stringify(data), res);
     }
     return res;
@@ -61,7 +64,7 @@ function addNewModels() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  addNewModels()
+  addNewModels();
 });
 
 console.log("chatGptWebPreload.ts loaded");
