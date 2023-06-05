@@ -4,7 +4,7 @@ import "./style.css";
 import ChatGPTFloat from "../view/chatGptFloat/ChatGptFloat";
 import { ChatGPTWeb } from "../view/chatGptWeb/ChatGptWeb";
 import { createRef, useState } from "react";
-import { BackwardFilled, HomeOutlined, HomeTwoTone, SettingFilled, SettingTwoTone } from "@ant-design/icons";
+import { HomeTwoTone, SettingTwoTone } from "@ant-design/icons";
 
 export default function Routers() {
   const [currentView, setCurrentView] = useState<"chatGptView" | "settingView">(

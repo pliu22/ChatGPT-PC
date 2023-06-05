@@ -52,7 +52,7 @@ const Container = styled.div`
   }
 `;
 
-export const ChatGPTWeb =  forwardRef((props, ref) => {
+export const ChatGPTWeb =  forwardRef((_, ref) => {
   // webviewDom
   let webviewRef = useRef<any>(null);
 
@@ -82,7 +82,7 @@ export const ChatGPTWeb =  forwardRef((props, ref) => {
     });
     webviewRef.current.addEventListener("did-finish-load", (event: any) => {
       console.log("loaded", event);
-      // webviewRef.current.openDevTools();
+      webviewRef.current.openDevTools();
       webviewRef.current.addEventListener("ipc-message", (event: any) => {
         console.log("ipc-message", event);
         // Prints "xxxx"

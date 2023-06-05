@@ -5,7 +5,7 @@ import createGPTFloatWindow from "./main/chatGptFloatView.ts";
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
 declare const MAIN_WINDOW_VITE_NAME: string;
 
-console.log(MAIN_WINDOW_VITE_NAME, MAIN_WINDOW_VITE_DEV_SERVER_URL)
+console.log(MAIN_WINDOW_VITE_NAME, MAIN_WINDOW_VITE_DEV_SERVER_URL);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -89,18 +89,21 @@ app.whenReady().then(() => {
     // BrowserWindow.getAllWindows().forEach((win) => {
     //   win.show()
     // })
-    if(floatWindow) {
-      console.log('close float window')
-      floatWindow.isVisible() ? floatWindow.hide() : floatWindow.show()
+    if (floatWindow) {
+      console.log("close float window");
+      floatWindow.isVisible() ? floatWindow.hide() : floatWindow.show();
     } else {
       floatWindow = createGPTFloatWindow();
     }
   });
 });
 
-app.on('web-contents-created', (_event, contents) => {
-  contents.on('will-attach-webview', (_wawevent, webPreferences, _params) => {
-    webPreferences.preload = path.join(__dirname, "./chatGptWebPreload.js");
+app.on("web-contents-created", (_event, contents) => {
+  contents.on("will-attach-webview", (_wawevent, webPreferences, _params) => {
+    if (_params.src === "https://chat.openai.com/") {
+      webPreferences.contextIsolation = false;
+      webPreferences.preload = path.join(__dirname, "./chatGptWebPreload.js");
+    }
   });
 });
 
