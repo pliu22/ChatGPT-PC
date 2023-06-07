@@ -9,7 +9,7 @@ const Container = styled.div`
     height: 100px;
     width: 100px;
     position: relative;
-    margin: 40vh auto;
+    margin: 35vh auto;
   }
 
   .loading {

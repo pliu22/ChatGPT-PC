@@ -9,10 +9,7 @@ export default function createGPTFloatWindow() {
   gptFloatWindow = new BrowserWindow({
       width: 300, 
       height: 450,
-      // type: 'toolbar',    //创建的窗口类型为工具栏窗口
       frame: false,   //要创建无边框窗口
-      // resizable: false, //禁止窗口大小缩放
-      // transparent: true,  //设置透明
       alwaysOnTop: true,  //窗口是否总是显示在其他窗口之前
       webPreferences: {
         webviewTag: true,
@@ -32,8 +29,9 @@ export default function createGPTFloatWindow() {
     gptFloatWindow!.show()
   });
 
-  gptFloatWindow.on('close', () => {
-    gptFloatWindow = null;
+  gptFloatWindow.on('close', (e) => {
+    gptFloatWindow?.hide()
+    e.preventDefault()
   })
 
   // gptFloatWindow.webContents.openDevTools();

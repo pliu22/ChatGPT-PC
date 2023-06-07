@@ -1,6 +1,8 @@
 // In guest page.
 import { ipcRenderer } from "electron";
 
+
+
 // assemblePrompt in guest page
 ipcRenderer.on("assemblePrompt", (_, msg) => {
   console.log("assemblePrompt", msg);
@@ -56,7 +58,6 @@ function addNewModels() {
           subscription_level: "plus",
         });
       }
-      console.log(data);
       res = new Response(JSON.stringify(data), res);
     }
     return res;

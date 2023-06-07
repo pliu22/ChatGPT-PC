@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { Loader } from "../../components/loader";
 
 const Container = styled.div`
   width: 100%;
@@ -9,6 +10,9 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
     display: inline-flex;
+    position: fixed;
+    background-color: #fff;
+    opacity: 0;
   }
   .float-box {
     position: fixed;
@@ -25,6 +29,16 @@ const Container = styled.div`
     overflow-y: scroll;
     cursor: pointer;
   }
+`;
+
+const DragBar = styled.div`
+  position: fixed;
+  top: 0;
+  margin:0 35px;
+  width: calc(100% - 70px);
+  height: 44px;
+  background-color: #cccccc00;
+  -webkit-app-region: drag;
 `;
 
 export default function ChatGPTFloat() {
@@ -48,11 +62,18 @@ export default function ChatGPTFloat() {
       console.log(error);
     });
     webviewRef.current.addEventListener("did-finish-load", (event: any) => {
-      console.log("loaded", event);
-      // webviewRef.current.openDevTools();
+      webviewRef.current.style.opacity = "1";
+      webviewRef.current.openDevTools();
+      // css
+      webviewRef.current.insertCSS(`
+          main > div:nth-child(3) > div[class~="px-3"] {
+            visibility: hidden;
+            height: 0px;
+            padding: 5px;
+          }
+      `)
       webviewRef.current.addEventListener("ipc-message", (event: any) => {
         console.log("ipc-message", event);
-        // Prints "xxxx"
       });
       setShowFloatBox(true);
     });
@@ -65,16 +86,18 @@ export default function ChatGPTFloat() {
 
   return (
     <Container>
-      {/* {showFloatBox && (
-        <div className="float-box" onClick={assemblePrompt}>
-          翻译官
-        </div>
-      )} */}
+      <Loader />
       <webview
         nodeintegration
         ref={webviewRef}
         src="https://chat.openai.com/"
       ></webview>
+      <DragBar />
+      {/* {showFloatBox && (
+        <div className="float-box" onClick={assemblePrompt}>
+          翻译官
+        </div>
+      )} */}
     </Container>
   );
 }
