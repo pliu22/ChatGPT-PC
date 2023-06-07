@@ -6,6 +6,7 @@ import {
   useImperativeHandle,
 } from "react";
 import styled from "styled-components";
+import { Loader } from "../../components/loader";
 
 const Container = styled.div`
   width: 100%;
@@ -14,6 +15,9 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
     display: inline-flex;
+    position: fixed;
+    background-color: #fff;
+    opacity: 0;
   }
   .float-box {
     position: fixed;
@@ -82,7 +86,9 @@ export const ChatGPTWeb =  forwardRef((_, ref) => {
     });
     webviewRef.current.addEventListener("did-finish-load", (event: any) => {
       console.log("loaded", event);
-      webviewRef.current.openDevTools();
+      // change webview opacity
+      webviewRef.current.style.opacity = "1";
+      // webviewRef.current.openDevTools();
       webviewRef.current.addEventListener("ipc-message", (event: any) => {
         console.log("ipc-message", event);
         // Prints "xxxx"
@@ -107,6 +113,12 @@ export const ChatGPTWeb =  forwardRef((_, ref) => {
 
   return (
     <Container>
+      <Loader/>
+      <webview
+        nodeintegration
+        ref={webviewRef}
+        src="https://chat.openai.com/"
+      ></webview>
       {showFloatBox && (
         <div className="float-box" >
           {promptList.map((item: any) => {
@@ -118,11 +130,6 @@ export const ChatGPTWeb =  forwardRef((_, ref) => {
           })}
         </div>
       )}
-      <webview
-        nodeintegration
-        ref={webviewRef}
-        src="https://chat.openai.com/"
-      ></webview>
     </Container>
   );
 });

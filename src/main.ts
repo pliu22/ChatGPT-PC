@@ -1,11 +1,21 @@
-import { app, BrowserWindow, globalShortcut } from "electron";
+import {
+  app,
+  BrowserWindow,
+  globalShortcut,
+  Tray,
+  Menu,
+} from "electron";
 import path from "path";
 import { Rpc } from "./rpc/rpc.ts";
 import createGPTFloatWindow from "./main/chatGptFloatView.ts";
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
 declare const MAIN_WINDOW_VITE_NAME: string;
 
-console.log(MAIN_WINDOW_VITE_NAME, MAIN_WINDOW_VITE_DEV_SERVER_URL);
+// mainWindow
+let mainWindow: BrowserWindow | null = null;
+
+// tray
+let tray: Tray | null = null;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -14,7 +24,7 @@ if (require("electron-squirrel-startup")) {
 
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     icon: path.join(__dirname, "logo.png"),
@@ -23,6 +33,35 @@ const createWindow = () => {
       webviewTag: true,
     },
   });
+
+  // 点击关闭时隐藏窗口而不是退出
+  mainWindow.on("close", (event) => {
+    if (mainWindow?.isVisible()) {
+      mainWindow?.hide();
+      event.preventDefault();
+    }
+  });
+
+  // tray
+  tray = new Tray(path.join(__dirname, "logo.png"));
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: "打开主界面",
+      click: () => {
+        mainWindow?.show();
+      },
+    },
+    {
+      label: "退出",
+      click: () => {
+        mainWindow?.destroy();
+        floatWindow?.destroy();
+        app.quit();
+      },
+    },
+  ]);
+  tray.setContextMenu(contextMenu);
+
   // macOS
   if (process.platform === "darwin") {
     app.dock.setIcon(path.join(__dirname, "logo.png"));
@@ -61,9 +100,9 @@ app.on("ready", createWindow);
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  // if (process.platform !== "darwin") {
+  //   app.quit();
+  // }
 });
 
 app.on("activate", () => {
@@ -81,14 +120,9 @@ let floatWindow: BrowserWindow | null = null;
 app.whenReady().then(() => {
   globalShortcut.register("CommandOrControl+Shift+a", () => {
     console.log("CommandOrControl+Shift+a is pressed");
-    // is system is mac then reactive the window
-    if (process.platform === "darwin") {
-      app.dock.show();
-    }
-    // active the window in windows
-    // BrowserWindow.getAllWindows().forEach((win) => {
-    //   win.show()
-    // })
+    // if (process.platform === "darwin") {
+    //   app.dock.show();
+    // }
     if (floatWindow) {
       console.log("close float window");
       floatWindow.isVisible() ? floatWindow.hide() : floatWindow.show();
