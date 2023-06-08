@@ -113,7 +113,7 @@ export const ChatGPTWeb =  forwardRef((_, ref) => {
 
   return (
     <Container>
-      <Loader/>
+      <Loader theme="dark"/>
       <webview
         nodeintegration
         ref={webviewRef}
