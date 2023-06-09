@@ -16,7 +16,6 @@ ipcRenderer.on("assemblePrompt", (_, msg) => {
 
   function initTextInputDom() {
     textInputDom = document.querySelector("#prompt-textarea");
-    console.log("textDom", textInputDom);
   }
 
   const assemblePrompt = (val: string) => {
@@ -29,10 +28,10 @@ ipcRenderer.on("assemblePrompt", (_, msg) => {
     inputEvent.initEvent("input", true, true);
     textInputDom!.dispatchEvent(inputEvent);
     // 模拟点击按钮
-    const btn = document.querySelector("#prompt-textarea ~ button");
-    btn!.removeAttribute("disabled");
-    (btn as any).click();
-    btn!.setAttribute("disabled", "true");
+    setTimeout(() => {
+      const btn = document.querySelector("#prompt-textarea ~ button");
+      setTimeout((btn as any).click(), 1000)
+    });
   };
 
   assemblePrompt(msg);
