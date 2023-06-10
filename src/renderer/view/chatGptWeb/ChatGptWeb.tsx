@@ -6,7 +6,7 @@ import {
   useImperativeHandle,
 } from "react";
 import styled from "styled-components";
-import { Loader } from "../../components/loader";
+import { Loader } from "../../components/Loader";
 
 const Container = styled.div`
   width: 100%;
