@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Routers from "./router/router";
 
 
-const Container = styled.div`
+const Wrapper = styled.div`
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -11,9 +11,9 @@ const Container = styled.div`
 
 function App() { 
   return (
-    <Container>
+    <Wrapper>
        <Routers/> 
-    </Container>
+    </Wrapper>
   );
 }
 ReactDOM.createRoot(document.getElementById("root")!).render(<App />);

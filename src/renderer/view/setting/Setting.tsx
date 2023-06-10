@@ -4,7 +4,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import TextArea from "antd/es/input/TextArea";
 
-const Container = styled.div`
+const Wrapper = styled.div`
   padding: 24px;
   box-sizing: border-box;
   overflow-y: auto;
@@ -133,7 +133,7 @@ export default function Setting() {
   }
 
   return (
-    <Container>
+    <Wrapper>
       <div className="setting-title">
         <span>ChatGPT</span>
       </div>
@@ -197,6 +197,6 @@ export default function Setting() {
         </div>
       </Modal>
       {contextHolder}
-    </Container>
+    </Wrapper>
   );
 }

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Loader } from "../../components/Loader";
 
-const Container = styled.div`
+const Wrapper = styled.div`
   width: 100%;
   height: 98%;
   background-color: #fff;
@@ -85,7 +85,7 @@ export default function ChatGPTFloat() {
   }
 
   return (
-    <Container>
+    <Wrapper>
       <Loader />
       <webview
         nodeintegration
@@ -98,6 +98,6 @@ export default function ChatGPTFloat() {
           翻译官
         </div>
       )} */}
-    </Container>
+    </Wrapper>
   );
 }

@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export function Loader(props: { theme?: "dark" | "light" }) {
-  const Container = styled.div`
+  const Wrapper = styled.div`
     width: 100vw;
     height: 100vh;
     background-color: white;
     position: fixed;
-    .loading-container {
+    .loading-Wrapper {
       height: 100px;
       width: 100px;
       position: relative;
@@ -45,11 +45,11 @@ export function Loader(props: { theme?: "dark" | "light" }) {
   `;
 
   return (
-    <Container>
-      <div className="loading-container">
+    <Wrapper>
+      <div className="loading-Wrapper">
         <div className="loading"></div>
         <div className="loading-text">加载中</div>
       </div>
-    </Container>
+    </Wrapper>
   );
 }
