@@ -1,9 +1,52 @@
-import { PropsWithRef } from "react";
+import { Input } from "antd";
+import { FilterTwoTone } from "@ant-design/icons";
+import { PropsWithRef, useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-    
-`
+  .prompt-box {
+    height: 116px;
+    width: 100%;
+    overflow: hidden;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+    background-color: #eeeeee60;
+    color: 202123;
+    margin-top: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 8px;
+    & > div:first-child {
+      font-size: 16px;
+      white-space: nowrap;
+      margin-bottom: 4px;
+    }
+    & > div:nth-child(2) {
+      font-size: 15px;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+
+      -webkit-box-orient: vertical;
+    }
+    transition: all 0.5s;
+    animation: box-show 1s;
+  }
+  .prompt-box:hover {
+    transform: scale(1.02);
+  }
+  @keyframes box-show {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(1.05);
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+`;
 
 export function PrompList(
   props: PropsWithRef<{
@@ -12,18 +55,37 @@ export function PrompList(
     onAssemblePrompt: (value: string) => void;
   }>
 ) {
+  const [promptList, setPromptList] = useState([]);
+  useEffect(() => {
+    setPromptList(props.list);
+  }, []);
+  function onSearch(val: string) {
+    setPromptList(
+      props.list?.filter((prop: { name: string; value: string }) => {
+        return prop.name?.includes(val) && prop.value?.includes(val);
+      })
+    );
+  }
   return (
     <Wrapper>
       {props.showFloatBox && (
         <div className="float-box">
-          {props.list.map((item: any) => {
+          <Input
+            onChange={(e) => {
+              onSearch(e.target.value);
+            }}
+            suffix={<FilterTwoTone />}
+          />
+          {promptList.map((item: any) => {
             return (
               <div
                 onClick={() => {
-                    props.onAssemblePrompt(item.value as string);
+                  props.onAssemblePrompt(item.value as string);
                 }}
+                className="prompt-box"
               >
-                {item.name}
+                <div>{item.name}</div>
+                <div>{item.value}</div>
               </div>
             );
           })}

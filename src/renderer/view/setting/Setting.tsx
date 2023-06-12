@@ -6,7 +6,6 @@ import TextArea from "antd/es/input/TextArea";
 
 const Wrapper = styled.div`
   padding: 24px;
-  box-sizing: border-box;
   overflow-y: auto;
   height: 100%;
   .setting-title {
@@ -45,8 +44,8 @@ const Wrapper = styled.div`
       }
       button {
         position: absolute;
-        top: 8px;
-        right: 12px;
+        top: 4px;
+        right: 6px;
       }
     }
   }
