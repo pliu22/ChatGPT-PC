@@ -61,6 +61,10 @@ const createWindow = () => {
     },
   ]);
   tray.setContextMenu(contextMenu);
+  tray.setToolTip('ChatGPT Desktop')
+  tray.on("click", () => {
+    mainWindow?.show();
+  });
 
   // macOS
   if (process.platform === "darwin") {
@@ -77,7 +81,7 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // clear menubar
   mainWindow.setMenuBarVisibility(false);
@@ -95,6 +99,18 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", createWindow);
+// InstanceLock
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+  app.quit();
+} else {
+  app.on("second-instance", (_event, _commandLine, _workingDirectory) => {
+    if (mainWindow) {
+      mainWindow.show();
+    }
+  })
+}
+
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -119,15 +135,14 @@ let floatWindow: BrowserWindow | null = null;
 // shortcut
 app.whenReady().then(() => {
   globalShortcut.register("CommandOrControl+Shift+a", () => {
-    console.log("CommandOrControl+Shift+a is pressed");
     // if (process.platform === "darwin") {
     //   app.dock.show();
     // }
     if (floatWindow) {
-      console.log("close float window");
       floatWindow.isVisible() ? floatWindow.hide() : floatWindow.show();
     } else {
       floatWindow = createGPTFloatWindow();
+      floatWindow.webContents.openDevTools();
     }
   });
 });

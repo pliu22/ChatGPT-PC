@@ -34,7 +34,7 @@ const Wrapper = styled.div`
 const DragBar = styled.div`
   position: fixed;
   top: 0;
-  margin:0 35px;
+  margin: 0 35px;
   width: calc(100% - 70px);
   height: 44px;
   background-color: #cccccc00;
@@ -44,8 +44,6 @@ const DragBar = styled.div`
 export default function ChatGPTFloat() {
   // webviewDom
   let webviewRef = useRef<any>(null);
-
-  const [showFloatBox, setShowFloatBox] = useState(false);
 
   const [promptList, setPromptList] = useState<any>();
 
@@ -63,7 +61,7 @@ export default function ChatGPTFloat() {
     });
     webviewRef.current.addEventListener("did-finish-load", (event: any) => {
       webviewRef.current.style.opacity = "1";
-      // webviewRef.current.openDevTools();
+      webviewRef.current.openDevTools();
       // css
       webviewRef.current.insertCSS(`
           main > div:nth-child(3) > div[class~="px-3"] {
@@ -71,18 +69,12 @@ export default function ChatGPTFloat() {
             height: 0px;
             padding: 5px;
           }
-      `)
+      `);
       webviewRef.current.addEventListener("ipc-message", (event: any) => {
         console.log("ipc-message", event);
       });
-      setShowFloatBox(true);
     });
   });
-
-  function assemblePrompt() {
-    webviewRef.current.send("assemblePrompt", promptList[0].value);
-    console.log("assemblePrompt 1");
-  }
 
   return (
     <Wrapper>
@@ -93,11 +85,6 @@ export default function ChatGPTFloat() {
         src="https://chat.openai.com/"
       ></webview>
       <DragBar />
-      {/* {showFloatBox && (
-        <div className="float-box" onClick={assemblePrompt}>
-          翻译官
-        </div>
-      )} */}
     </Wrapper>
   );
 }
