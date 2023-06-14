@@ -63,7 +63,7 @@ export default function ChatGPTFloat() {
     });
     webviewRef.current.addEventListener("did-finish-load", (event: any) => {
       webviewRef.current.style.opacity = "1";
-      webviewRef.current.openDevTools();
+      // webviewRef.current.openDevTools();
       // css
       webviewRef.current.insertCSS(`
           main > div:nth-child(3) > div[class~="px-3"] {

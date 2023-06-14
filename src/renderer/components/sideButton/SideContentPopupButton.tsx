@@ -1,6 +1,6 @@
 import { LeftCircleTwoTone } from "@ant-design/icons";
 import { Button, Drawer } from "antd";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -26,18 +26,25 @@ const Wrapper = styled.div`
 `;
 
 // 可隐藏的侧边栏
-export function SideContentPopupButton(props: PropsWithChildren) {
+export function SideContentPopupButton(props: PropsWithChildren<{
+  onInit?: (compObj: {
+    hideDrawer: () => void;
+  }) => void;
+}>) {
   const [open, setOpen] = useState(false);
   const showDrawer = () => {
     setOpen(true);
+    props.onInit?.({
+      hideDrawer: onClose
+    });
   };
   const onClose = () => {
     setOpen(false);
-  };
+    console.log('onClose')
+  }
   return (
     <Wrapper>
       <Button shape="round" icon={<LeftCircleTwoTone />} onClick={showDrawer}/>
-
       <Drawer
         headerStyle={{
           display: 'none'

@@ -52,6 +52,7 @@ export function PrompList(
   props: PropsWithRef<{
     list: any;
     showFloatBox: boolean;
+    onPropmtClick: () => void;
     onAssemblePrompt: (value: string) => void;
   }>
 ) {
@@ -81,6 +82,7 @@ export function PrompList(
               <div
                 onClick={() => {
                   props.onAssemblePrompt(item.value as string);
+                  props.onPropmtClick();
                 }}
                 className="prompt-box"
               >

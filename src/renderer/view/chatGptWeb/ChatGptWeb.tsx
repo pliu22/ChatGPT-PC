@@ -77,7 +77,19 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
     webviewRef.current.send("assemblePrompt", value);
     console.log("assemblePrompt 1");
   }
-
+  // get the function of hideDrawer
+  const [hideDrawer, setHideDrawer] = useState({on: () => {}});
+  function getHideDrawer(compObj: {
+    hideDrawer: () => void
+  }) {
+    console.log(Object.is(compObj.hideDrawer, hideDrawer))
+    setHideDrawer({
+     on: compObj.hideDrawer
+    });
+  }
+  useEffect(() => {
+    console.log("hideDrawer", hideDrawer);
+  }, [hideDrawer]);
   return (
     <Wrapper>
       <Loader theme="dark" />
@@ -86,13 +98,15 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
         ref={webviewRef}
         src="https://chat.openai.com/"
       ></webview>
-      <SideContentPopupButton>
+      <SideContentPopupButton onInit={getHideDrawer}>
         <PrompList
           list={promptList}
           showFloatBox={showFloatBox}
           onAssemblePrompt={assemblePrompt}
+          onPropmtClick={hideDrawer.on}
         />
       </SideContentPopupButton>
     </Wrapper>
   );
 });
+1
