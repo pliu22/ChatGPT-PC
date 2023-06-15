@@ -6,10 +6,6 @@ import { ipcRenderer } from "electron";
 // assemblePrompt in guest page
 ipcRenderer.on("assemblePrompt", (_, msg) => {
   console.log("assemblePrompt", msg);
-  ipcRenderer.sendToHost(
-    "from assemblePrompt",
-    "have received assemblePrompt arg"
-  );
   console.log(window);
 
   let textInputDom: null | HTMLInputElement;
@@ -63,8 +59,27 @@ function addNewModels() {
   };
 }
 
+function observeTheme() {
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === "attributes") {
+          // @ts-ignore
+          ipcRenderer.sendToHost("theme", mutation.target.className);
+      }
+    });
+  });
+  console.log('html', document.documentElement)
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+    childList: false,
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   addNewModels();
+  observeTheme();
 });
+
 
 console.log("chatGptWebPreload.ts loaded");

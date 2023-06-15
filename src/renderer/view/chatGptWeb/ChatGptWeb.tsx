@@ -9,6 +9,8 @@ import styled from "styled-components";
 import { Loader } from "../../components/Loader";
 import { SideContentPopupButton } from "../../components/sideButton/SideContentPopupButton";
 import { PrompList } from "../../components/promptList/PromptList";
+import { setTheme, selectTheme } from "../../store/themeSlice";
+import { useSelector, useDispatch } from 'react-redux'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -24,6 +26,11 @@ const Wrapper = styled.div`
 `;
 
 export const ChatGPTWeb = forwardRef((_, ref) => {
+
+  // const theme = useSelector(selectTheme);
+  const dispatch = useDispatch();
+
+
   // webviewDom
   let webviewRef = useRef<any>(null);
 
@@ -57,8 +64,11 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
       webviewRef.current.style.opacity = "1";
       // webviewRef.current.openDevTools();
       webviewRef.current.addEventListener("ipc-message", (event: any) => {
-        console.log("ipc-message", event);
-        // Prints "xxxx"
+        // change theme
+        if(event.channel === "theme") {
+          // set main process store and redux
+          
+        }
       });
       if (webviewRef.current.getURL() === "https://chat.openai.com/") {
         setShowFloatBox(true);

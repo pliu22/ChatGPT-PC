@@ -81,7 +81,7 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // clear menubar
   mainWindow.setMenuBarVisibility(false);
@@ -141,8 +141,8 @@ app.whenReady().then(() => {
     if (floatWindow) {
       floatWindow.isVisible() ? floatWindow.hide() : floatWindow.show();
     } else {
-      floatWindow = createGPTFloatWindow();
-      floatWindow.webContents.openDevTools();
+      // floatWindow = createGPTFloatWindow();
+      // floatWindow.webContents.openDevTools();
     }
   });
 });

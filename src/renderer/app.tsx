@@ -1,7 +1,8 @@
 import ReactDOM from "react-dom/client";
 import styled from "styled-components";
 import Routers from "./router/router";
-
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -9,11 +10,13 @@ const Wrapper = styled.div`
   display: flex;
 `;
 
-function App() { 
+function App() {
   return (
-    <Wrapper>
-       <Routers/> 
-    </Wrapper>
+    // <Provider store={store}>
+      <Wrapper>
+        <Routers />
+      </Wrapper>
+    // </Provider>
   );
 }
 ReactDOM.createRoot(document.getElementById("root")!).render(<App />);
