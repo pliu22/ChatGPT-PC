@@ -12,11 +12,11 @@ const Wrapper = styled.div`
 
 function App() {
   return (
-    // <Provider store={store}>
+    <Provider store={store}>
       <Wrapper>
         <Routers />
       </Wrapper>
-    // </Provider>
+    </Provider>
   );
 }
 ReactDOM.createRoot(document.getElementById("root")!).render(<App />);

@@ -141,7 +141,7 @@ app.whenReady().then(() => {
     if (floatWindow) {
       floatWindow.isVisible() ? floatWindow.hide() : floatWindow.show();
     } else {
-      // floatWindow = createGPTFloatWindow();
+      floatWindow = createGPTFloatWindow();
       // floatWindow.webContents.openDevTools();
     }
   });

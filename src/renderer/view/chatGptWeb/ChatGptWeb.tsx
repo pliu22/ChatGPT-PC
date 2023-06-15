@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 
 export const ChatGPTWeb = forwardRef((_, ref) => {
 
-  // const theme = useSelector(selectTheme);
+  const theme = useSelector(selectTheme);
   const dispatch = useDispatch();
 
 
@@ -102,7 +102,7 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
   }, [hideDrawer]);
   return (
     <Wrapper>
-      <Loader theme="dark" />
+      <Loader theme={theme} />
       <webview
         nodeintegration
         ref={webviewRef}
