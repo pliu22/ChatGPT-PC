@@ -77,7 +77,7 @@ const createWindow = () => {
   } else {
     mainWindow.loadFile(
       path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
-    );
+    )
   }
 
   // Open the DevTools.
@@ -142,7 +142,10 @@ app.whenReady().then(() => {
       floatWindow.isVisible() ? floatWindow.hide() : floatWindow.show();
     } else {
       floatWindow = createGPTFloatWindow();
-      // floatWindow.webContents.openDevTools();
+      floatWindow.webContents.on('crashed', (e) => {
+        console.log('crashed',e)
+      })
+      floatWindow.webContents.openDevTools();
     }
   });
 });

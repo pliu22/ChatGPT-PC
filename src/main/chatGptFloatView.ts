@@ -1,7 +1,7 @@
 import { BrowserWindow, screen }  from 'electron'
 const path = require('path')
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
-
+declare const MAIN_WINDOW_VITE_NAME: string;
 
 
 export default function createGPTFloatWindow() {
@@ -23,7 +23,19 @@ export default function createGPTFloatWindow() {
   gptFloatWindow.setPosition(left, top, true) //设置悬浮球位置
 
 
-  gptFloatWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL + '/gptFloat');
+
+  // and load the index.html of the app.
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+    gptFloatWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL + '/gptFloat');
+  } else {
+    gptFloatWindow.loadFile(
+      path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
+    ).then(() => {
+      // TODO finish the router.js and the preload.js
+      // send the msg that neet to load gptFloatWindow
+      gptFloatWindow?.webContents.send('gptFloatWindow', true)
+    })
+  }
 
   gptFloatWindow.once('ready-to-show', () => {
     gptFloatWindow!.show()
@@ -34,7 +46,7 @@ export default function createGPTFloatWindow() {
     e.preventDefault()
   })
 
-  // gptFloatWindow.webContents.openDevTools();
+  gptFloatWindow.webContents.openDevTools();
 
   return gptFloatWindow
 }

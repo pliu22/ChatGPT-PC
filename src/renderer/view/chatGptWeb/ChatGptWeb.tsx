@@ -40,6 +40,7 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
 
   // load userSetting
   useEffect(() => {
+    console.log("chatGptWeb useEffect");
     updateUserSetting();
   }, []);
 
