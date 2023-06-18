@@ -35,28 +35,29 @@ ipcRenderer.on("assemblePrompt", (_, msg) => {
 
 function addNewModels() {
   if (!window.fetch) return;
-  const oldFetch = window.fetch;
-  window.fetch = async function (url, options) {
-    let res = await oldFetch.apply(this, [url, options]);
-    if (url.toString().indexOf("/backend-api/models") !== -1) {
-      const data = await res.clone().json();
-      data.categories.map((category: any) => {
-        if (category.category === "gpt_4") {
-          category.default_model = "gpt-4";
-        }
-      });
-      if (data.models.find((model: any) => model.slug === "gpt-4-mobile")) {
-        data.categories.push({
-          category: "gpt_4",
-          default_model: "gpt-4-mobile",
-          human_category_name: "GPT-4-Mobile",
-          subscription_level: "plus",
-        });
-      }
-      res = new Response(JSON.stringify(data), res);
-    }
-    return res;
-  };
+  // const oldFetch = window.fetch;
+  // window.fetch = async function (url, options) {
+  //   let res = await oldFetch.apply(this, [url, options]);
+  //   if (url.toString().indexOf("/backend-api/models") !== -1) {
+  //     const data = await res.clone().json();
+  //     data.categories.map((category: any) => {
+  //       if (category.category === "gpt_4") {
+  //         category.default_model = "gpt-4";
+  //       }
+  //     });
+  //     if (data.models.find((model: any) => model.slug === "gpt-4-mobile")) {
+  //       data.categories.push({
+  //         category: "gpt_4",
+  //         default_model: "gpt-4-mobile",
+  //         human_category_name: "GPT-4-Mobile",
+  //         subscription_level: "plus",
+  //       });
+  //     }
+  //     res = new Response(JSON.stringify(data), res);
+  //     console.log('models', data)
+  //   }
+  //   return res;
+  // };
 }
 
 function observeTheme() {

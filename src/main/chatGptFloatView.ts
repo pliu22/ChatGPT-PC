@@ -24,14 +24,14 @@ export default function createGPTFloatWindow() {
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-    gptFloatWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL + '/gptFloat');
+    gptFloatWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL).then(() => {
+      gptFloatWindow?.webContents.send('router-init', 'chatGptFloat');
+    }) 
   } else {
     gptFloatWindow.loadFile(
       path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
     ).then(() => {
-      // TODO finish the router.js and the preload.js
-      // send the msg that neet to load gptFloatWindow
-      gptFloatWindow?.webContents.send('gptFloatWindow', true)
+      gptFloatWindow?.webContents.send('router-init', 'chatGptFloat');
     })
   }
 

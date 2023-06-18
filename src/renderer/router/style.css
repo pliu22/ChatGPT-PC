@@ -1,40 +1,46 @@
 .tab {
-    width: 100%;
-    height: 90%;
+  width: 100%;
+  height: 90%;
 }
 /* especially for midjourney view */
 .ant-tabs-tabpane {
-    padding-left: 0px !important;
-    height: 100%  !important;
-    overflow-y: hidden;
+  padding-left: 0px !important;
+  height: 100% !important;
+  overflow-y: hidden;
 }
 .ant-tabs {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 .ant-tabs-content {
-    height: 100%;
+  height: 100%;
 }
 .ant-tabs-nav {
-    background-color: #202123;
-    color: aliceblue;
-    transition: .5S;
+  background-color: #202123;
+  color: aliceblue;
+  transition: 0.5s;
 }
 .ant-tabs-tab-active {
-    border-radius: 5px !important;
-    background: #343541 !important;
-    transform: scale(0.9) !important;
-    transition: .5s;
+  border-radius: 5px !important;
+  background: #343541 !important;
+  transform: scale(0.9) !important;
+  transition: 0.5s;
 }
 .ant-tabs-nav-list {
-    padding-top: 10px;
+  padding-top: 10px;
 }
 .ant-tabs-ink-bar {
-    visibility: hidden !important;
+  visibility: hidden !important;
 }
 
 .set-btn {
-    position: fixed;
-    bottom: 36px;
-    right: 36px;
+  position: fixed;
+  bottom: 36px;
+  right: 36px;
+}
+
+.full-screen {
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
 }

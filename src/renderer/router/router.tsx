@@ -7,15 +7,12 @@ import { createRef, useState } from "react";
 import { HomeTwoTone, SettingTwoTone } from "@ant-design/icons";
 
 export default function Routers() {
-  const [currentView, setCurrentView] = useState<"chatGptView" | "settingView">(
-    "chatGptView"
-  );
+  const [currentView, setCurrentView] = useState<
+    "chatGptView" | "settingView" | "chatGptFloat"
+  >("chatGptView");
 
   const ChatGPTWebRef = createRef<any>();
 
-  if (window.location.pathname === "/gptFloat") {
-    return <ChatGPTFloat />;
-  }
   function goSetting() {
     setCurrentView("settingView");
   }
@@ -23,43 +20,50 @@ export default function Routers() {
     setCurrentView("chatGptView");
     ChatGPTWebRef.current.updateUserSetting();
   }
+  (window as any).electronAPI.onRouterInit((_: any, value: string) => {
+    if (value === "chatGptFloat") {
+      setCurrentView("chatGptFloat");
+    }
+  });
+
   return (
     <>
-      <div
-        style={{
-          overflow: "hidden",
-          height: "100vh",
-          width: "100vw",
-          display: currentView === "chatGptView" ? "block" : "none",
-        }}
-      >
-        <ChatGPTWeb ref={ChatGPTWebRef} />
-        <Button
-          shape="circle"
-          className="set-btn"
-          onClick={goSetting}
-          size="large"
-          icon={<SettingTwoTone />}
-        />
-      </div>
-
-      <div
-        style={{
-          overflow: "hidden",
-          height: "100vh",
-          width: "100vw",
-          display: currentView === "settingView" ? "block" : "none",
-        }}
-      >
-        <Setting />
-        <Button
-          size="large"
-          shape="circle"
-          className="set-btn"
-          onClick={goChatGptView}
-          icon={<HomeTwoTone />}
-        />
-      </div>
+      {currentView === "chatGptFloat" ? (
+        <ChatGPTFloat />
+      ) : (
+        <>
+          <div
+            className="full-screen"
+            style={{
+              display: currentView === "chatGptView" ? "block" : "none",
+            }}
+          >
+            <ChatGPTWeb ref={ChatGPTWebRef} />
+            <Button
+              shape="circle"
+              className="set-btn"
+              onClick={goSetting}
+              size="large"
+              icon={<SettingTwoTone />}
+            />
+          </div>
+          <div
+            className="full-screen"
+            style={{
+              display: currentView === "settingView" ? "block" : "none",
+            }}
+          >
+            <Setting />
+            <Button
+              size="large"
+              shape="circle"
+              className="set-btn"
+              onClick={goChatGptView}
+              icon={<HomeTwoTone />}
+            />
+          </div>
+        </>
+      )}
     </>
   );
 }

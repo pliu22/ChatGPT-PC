@@ -63,7 +63,7 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
       console.log("loaded", event);
       // change webview opacity
       webviewRef.current.style.opacity = "1";
-      // webviewRef.current.openDevTools();
+      webviewRef.current.openDevTools();
       webviewRef.current.addEventListener("ipc-message", (event: any) => {
         // change theme
         if(event.channel === "theme") {

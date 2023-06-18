@@ -1,10 +1,4 @@
-import {
-  app,
-  BrowserWindow,
-  globalShortcut,
-  Tray,
-  Menu,
-} from "electron";
+import { app, BrowserWindow, globalShortcut, Tray, Menu } from "electron";
 import path from "path";
 import { Rpc } from "./rpc/rpc.ts";
 import createGPTFloatWindow from "./main/chatGptFloatView.ts";
@@ -61,7 +55,7 @@ const createWindow = () => {
     },
   ]);
   tray.setContextMenu(contextMenu);
-  tray.setToolTip('ChatGPT Desktop')
+  tray.setToolTip("ChatGPT Desktop");
   tray.on("click", () => {
     mainWindow?.show();
   });
@@ -108,9 +102,8 @@ if (!gotTheLock) {
     if (mainWindow) {
       mainWindow.show();
     }
-  })
+  });
 }
-
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -142,9 +135,9 @@ app.whenReady().then(() => {
       floatWindow.isVisible() ? floatWindow.hide() : floatWindow.show();
     } else {
       floatWindow = createGPTFloatWindow();
-      floatWindow.webContents.on('crashed', (e) => {
-        console.log('crashed',e)
-      })
+      floatWindow.webContents.on("crashed", (e) => {
+        console.log("crashed", e);
+      });
       floatWindow.webContents.openDevTools();
     }
   });
