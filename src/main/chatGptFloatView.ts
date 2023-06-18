@@ -9,18 +9,16 @@ export default function createGPTFloatWindow() {
   gptFloatWindow = new BrowserWindow({
       width: 300, 
       height: 450,
-      frame: false,   //要创建无边框窗口
-      alwaysOnTop: true,  //窗口是否总是显示在其他窗口之前
+      frame: false,   
+      alwaysOnTop: true,  
       webPreferences: {
         webviewTag: true,
-        // nodeIntegration: true, //是否集成node
-        // contextIsolation: true, //是否上下文隔离
-        preload: path.join(__dirname, './preload.js') // 通过预加载将 electron 中的一些 node 的API挂载到window对象上
+        preload: path.join(__dirname, './preload.js') 
       }
   });
-  //通过获取用户屏幕的宽高来设置悬浮球的初始位置
+ 
   const { left, top } = { left: screen.getPrimaryDisplay().workAreaSize.width - 300, top: 100}
-  gptFloatWindow.setPosition(left, top, true) //设置悬浮球位置
+  gptFloatWindow.setPosition(left, top, true) 
 
 
 
