@@ -1,7 +1,8 @@
 import { Input } from "antd";
 import { FilterTwoTone } from "@ant-design/icons";
-import { PropsWithRef, useEffect, useState } from "react";
+import { PropsWithRef, useCallback, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import { Context } from "../sideButton/context";
 
 const Wrapper = styled.div`
   .prompt-box {
@@ -52,7 +53,6 @@ export function PrompList(
   props: PropsWithRef<{
     list: any;
     showFloatBox: boolean;
-    onPropmtClick: () => void;
     onAssemblePrompt: (value: string) => void;
   }>
 ) {
@@ -67,6 +67,9 @@ export function PrompList(
       })
     );
   }
+
+  // closeDrawer context
+  const { closeDrawer } = useContext(Context);
   return (
     <Wrapper>
       {props.showFloatBox && (
@@ -82,7 +85,7 @@ export function PrompList(
               <div
                 onClick={() => {
                   props.onAssemblePrompt(item.value as string);
-                  props.onPropmtClick();
+                  closeDrawer();
                 }}
                 className="prompt-box"
               >

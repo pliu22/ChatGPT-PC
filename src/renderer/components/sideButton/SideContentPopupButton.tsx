@@ -1,7 +1,11 @@
 import { LeftCircleTwoTone } from "@ant-design/icons";
 import { Button, Drawer } from "antd";
-import { PropsWithChildren, useEffect, useState } from "react";
+import {
+  PropsWithChildren,
+  useState,
+} from "react";
 import styled from "styled-components";
+import { Context } from "./context";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -26,34 +30,36 @@ const Wrapper = styled.div`
 `;
 
 // 可隐藏的侧边栏
-export function SideContentPopupButton(props: PropsWithChildren<{
-  onInit?: (compObj: {
-    hideDrawer: () => void;
-  }) => void;
-}>) {
+export function SideContentPopupButton(
+  props: PropsWithChildren<{
+    onInit?: (compObj: { hideDrawer: () => void }) => void;
+  }>
+) {
   const [open, setOpen] = useState(false);
   const showDrawer = () => {
     setOpen(true);
     props.onInit?.({
-      hideDrawer: onClose
+      hideDrawer: onClose,
     });
   };
   const onClose = () => {
     setOpen(false);
-    console.log('onClose')
-  }
+    console.log("onClose");
+  };
   return (
     <Wrapper>
-      <Button shape="round" icon={<LeftCircleTwoTone />} onClick={showDrawer}/>
+      <Button shape="round" icon={<LeftCircleTwoTone />} onClick={showDrawer} />
       <Drawer
         headerStyle={{
-          display: 'none'
+          display: "none",
         }}
         placement="right"
         onClose={onClose}
         open={open}
       >
-        <div className="content">{props.children}</div>
+        <Context.Provider value={{ closeDrawer: onClose }}>
+          <div className="content">{props.children}</div>
+        </Context.Provider>
       </Drawer>
     </Wrapper>
   );

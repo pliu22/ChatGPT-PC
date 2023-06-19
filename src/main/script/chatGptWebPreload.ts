@@ -69,7 +69,6 @@ function observeTheme() {
       }
     });
   });
-  console.log('html', document.documentElement)
   observer.observe(document.documentElement, {
     attributes: true,
     attributeFilter: ["class"],

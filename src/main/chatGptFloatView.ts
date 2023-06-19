@@ -44,7 +44,7 @@ export default function createGPTFloatWindow() {
     e.preventDefault()
   })
 
-  gptFloatWindow.webContents.openDevTools();
+  // gptFloatWindow.webContents.openDevTools();
 
   return gptFloatWindow
 }

@@ -63,7 +63,7 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
       console.log("loaded", event);
       // change webview opacity
       webviewRef.current.style.opacity = "1";
-      // webviewRef.current.openDevTools();
+      webviewRef.current.openDevTools();
       webviewRef.current.addEventListener("ipc-message", (event: any) => {
         // change theme
         if(event.channel === "theme") {
@@ -88,19 +88,6 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
     webviewRef.current.send("assemblePrompt", value);
     console.log("assemblePrompt 1");
   }
-  // get the function of hideDrawer
-  const [hideDrawer, setHideDrawer] = useState({on: () => {}});
-  function getHideDrawer(compObj: {
-    hideDrawer: () => void
-  }) {
-    console.log(Object.is(compObj.hideDrawer, hideDrawer))
-    setHideDrawer({
-     on: compObj.hideDrawer
-    });
-  }
-  useEffect(() => {
-    console.log("hideDrawer", hideDrawer);
-  }, [hideDrawer]);
   return (
     <Wrapper>
       <Loader theme={theme} />
@@ -109,12 +96,11 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
         ref={webviewRef}
         src="https://chat.openai.com/"
       ></webview>
-      <SideContentPopupButton onInit={getHideDrawer}>
+      <SideContentPopupButton>
         <PrompList
           list={promptList}
           showFloatBox={showFloatBox}
           onAssemblePrompt={assemblePrompt}
-          onPropmtClick={hideDrawer.on}
         />
       </SideContentPopupButton>
     </Wrapper>
