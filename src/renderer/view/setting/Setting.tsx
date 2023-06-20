@@ -3,10 +3,12 @@ import { Button, Input, Modal, message } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import TextArea from "antd/es/input/TextArea";
+import { useSelector } from "react-redux";
+import { selectTheme } from "../../store/themeSlice";
 
 const Wrapper = styled.div`
   padding: 24px;
-  overflow-y: auto;
+  overflow-y: scroll;
   height: 100%;
   .setting-title {
     span {
@@ -57,7 +59,27 @@ const Wrapper = styled.div`
     bottom: 20px;
     left: 0;
     width: 50%;
-    left: calc(25% + 72px);
+    left: 25%;
+  }
+  &[class~="dark"] {
+    background-color: #343541;
+    .setting-title {
+      span {
+        color: #f7f7f8;
+      }
+    }
+    &::-webkit-scrollbar-track {
+      background: #343541 !important;
+      border-radius: 2px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #8e9aa748;
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: #a7a7a8;
+    }
+
   }
 `;
 
@@ -131,8 +153,9 @@ export default function Setting() {
     messageApi.success("保存成功");
   }
 
+  const theme = useSelector(selectTheme);
   return (
-    <Wrapper>
+    <Wrapper className={theme === "dark" ? "dark" : ""}>
       <div className="setting-title">
         <span>ChatGPT</span>
       </div>

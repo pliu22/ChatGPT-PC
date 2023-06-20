@@ -65,9 +65,13 @@ export default function Routers() {
             <Button
               size="large"
               shape="circle"
-              className="set-btn"
+              className={"set-btn" + (theme === "dark" ? " set-btn-dark" : "")}
               onClick={goChatGptView}
-              icon={<HomeTwoTone />}
+              icon={
+                <HomeTwoTone
+                  twoToneColor={theme === "dark" ? "#ececf1" : "#a4a5a1"}
+                />
+              }
             />
           </div>
         </>
