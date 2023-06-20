@@ -13,3 +13,7 @@ export interface ConfigModel {
         port: number
     }
 }
+
+export interface SystemModel {
+    theme?: string
+}

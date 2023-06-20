@@ -5,6 +5,8 @@ import ChatGPTFloat from "../view/chatGptFloat/ChatGptFloat";
 import { ChatGPTWeb } from "../view/chatGptWeb/ChatGptWeb";
 import { createRef, useState } from "react";
 import { HomeTwoTone, SettingTwoTone } from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import { selectTheme } from "../store/themeSlice";
 
 export default function Routers() {
   const [currentView, setCurrentView] = useState<
@@ -12,6 +14,8 @@ export default function Routers() {
   >("chatGptView");
 
   const ChatGPTWebRef = createRef<any>();
+
+  const theme = useSelector(selectTheme);
 
   function goSetting() {
     setCurrentView("settingView");
@@ -41,10 +45,14 @@ export default function Routers() {
             <ChatGPTWeb ref={ChatGPTWebRef} />
             <Button
               shape="circle"
-              className="set-btn"
+              className={"set-btn" + (theme === "dark" ? " set-btn-dark" : "")}
               onClick={goSetting}
               size="large"
-              icon={<SettingTwoTone />}
+              icon={
+                <SettingTwoTone
+                  twoToneColor={theme === "dark" ? "#ececf1" : "#a4a5a1"}
+                />
+              }
             />
           </div>
           <div

@@ -80,7 +80,7 @@ export function PrompList(
             }}
             suffix={<FilterTwoTone />}
           />
-          {promptList.map((item: any) => {
+          {promptList?.map((item: any) => {
             return (
               <div
                 onClick={() => {

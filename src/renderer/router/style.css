@@ -39,6 +39,18 @@
   right: 36px;
 }
 
+.set-btn:hover {
+  border-color: #66666695 !important;
+}
+
+.set-btn-dark {
+  background-color: #202123;
+}
+
+.set-btn-dark:hover {
+  border-color: #999999 !important;
+}
+
 .full-screen {
   overflow: hidden;
   height: 100vh;

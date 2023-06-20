@@ -1,10 +1,11 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { selectTheme } from "../store/themeSlice";
 
-export function Loader(props: { theme?: "dark" | "light" }) {
+export function Loader() {
   const Wrapper = styled.div`
     width: 100vw;
     height: 100vh;
-    background-color: white;
     position: fixed;
     .loading-Wrapper {
       height: 100px;
@@ -44,8 +45,14 @@ export function Loader(props: { theme?: "dark" | "light" }) {
     }
   `;
 
+  const theme = useSelector(selectTheme)
+
   return (
-    <Wrapper>
+    <Wrapper
+     style={{
+      background: theme === "light" ? "white" : "#343541",
+     }}
+    >
       <div className="loading-Wrapper">
         <div className="loading"></div>
         <div className="loading-text">加载中</div>

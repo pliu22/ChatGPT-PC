@@ -11,6 +11,7 @@ import { SideContentPopupButton } from "../../components/sideButton/SideContentP
 import { PrompList } from "../../components/promptList/PromptList";
 import { setTheme, selectTheme } from "../../store/themeSlice";
 import { useSelector, useDispatch } from 'react-redux'
+import { SystemModel } from "../../../store/model";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -42,6 +43,13 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
   useEffect(() => {
     console.log("chatGptWeb useEffect");
     updateUserSetting();
+
+    // async function 
+    ;(async () => {
+      const {theme: loctalTheme} = await (window as any).electronAPI.getSystemSetting();
+      dispatch(setTheme(loctalTheme))
+      window.localStorage.setItem("theme", loctalTheme);
+    })()
   }, []);
 
   // update userSetting
@@ -63,12 +71,16 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
       console.log("loaded", event);
       // change webview opacity
       webviewRef.current.style.opacity = "1";
-      webviewRef.current.openDevTools();
+      // webviewRef.current.openDevTools();
       webviewRef.current.addEventListener("ipc-message", (event: any) => {
         // change theme
         if(event.channel === "theme") {
-          // set main process store and redux
-          
+          // set redux and main process store
+          dispatch(setTheme(event.args[0]));
+          const systemSetting:SystemModel = {
+            theme: event.args[0]
+          };
+          (window as any).electronAPI.saveSystemSetting(systemSetting);
         }
       });
       if (webviewRef.current.getURL() === "https://chat.openai.com/") {
@@ -90,7 +102,7 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
   }
   return (
     <Wrapper>
-      <Loader theme={theme} />
+      <Loader />
       <webview
         nodeintegration
         ref={webviewRef}

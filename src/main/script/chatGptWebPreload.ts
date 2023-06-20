@@ -64,6 +64,7 @@ function observeTheme() {
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.type === "attributes") {
+          // rpc between main and guest page
           // @ts-ignore
           ipcRenderer.sendToHost("theme", mutation.target.className);
       }
@@ -82,4 +83,3 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-console.log("chatGptWebPreload.ts loaded");
