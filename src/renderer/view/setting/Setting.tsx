@@ -79,10 +79,22 @@ const Wrapper = styled.div`
     &::-webkit-scrollbar-thumb:hover {
       background: #a7a7a8;
     }
-    .prompt-box {
+    .prompt-box,
+    .prompts > button:last-child,
+    .save-btn {
       background-color: #343541;
       border: #66666650 1px solid;
-      color: #f7f7f8;
+      color: #f7f7f8 ;
+    }
+    .prompts button:last-child,
+    .save-btn {
+      background-color: #40414f;
+      border: 0;
+      box-shadow: 0 2px 0 #40414f19;
+    }
+    .prompts button:last-child:hover,
+    .save-btn:hover {
+      background-color: #515263;
     }
   }
 `;

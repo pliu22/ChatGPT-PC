@@ -50,7 +50,7 @@ export default function Routers() {
               size="large"
               icon={
                 <SettingTwoTone
-                  twoToneColor={theme === "dark" ? "#ececf1" : "#a4a5a1"}
+                  twoToneColor={theme === "dark" ? "#40414f" : "#a4a5a1"}
                 />
               }
             />
@@ -69,7 +69,7 @@ export default function Routers() {
               onClick={goChatGptView}
               icon={
                 <HomeTwoTone
-                  twoToneColor={theme === "dark" ? "#ececf1" : "#a4a5a1"}
+                  twoToneColor={theme === "dark" ? "#40414f" : "#a4a5a1"}
                 />
               }
             />

@@ -1,11 +1,10 @@
 import { LeftCircleTwoTone } from "@ant-design/icons";
 import { Button, Drawer } from "antd";
-import {
-  PropsWithChildren,
-  useState,
-} from "react";
+import { PropsWithChildren, useState } from "react";
 import styled from "styled-components";
 import { Context } from "./context";
+import { useSelector } from "react-redux";
+import { selectTheme } from "../../store/themeSlice";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -27,6 +26,16 @@ const Wrapper = styled.div`
   & > button:hover {
     transform: translateX(13px);
   }
+  &[class~="dark"] {
+    & > button {
+      background-color: #343541;
+      border: #66666650 1px solid;
+      color: #f7f7f8;
+    }
+    & > button:hover {
+      border: #9d9d9d50 1px solid;
+    }
+  }
 `;
 
 // 可隐藏的侧边栏
@@ -46,12 +55,26 @@ export function SideContentPopupButton(
     setOpen(false);
     console.log("onClose");
   };
+
+  const theme = useSelector(selectTheme);
+
   return (
-    <Wrapper>
-      <Button shape="round" icon={<LeftCircleTwoTone />} onClick={showDrawer} />
+    <Wrapper className={theme === "dark" ? "dark" : ""}>
+      <Button
+        shape="round"
+        icon={
+          <LeftCircleTwoTone
+            twoToneColor={theme === "dark" ? "#40414f" : "#a4a5a1"}
+          />
+        }
+        onClick={showDrawer}
+      />
       <Drawer
         headerStyle={{
           display: "none",
+        }}
+        bodyStyle={{
+          padding: 0,
         }}
         placement="right"
         onClose={onClose}

@@ -1,13 +1,25 @@
 import { Input } from "antd";
 import { FilterTwoTone } from "@ant-design/icons";
-import { PropsWithRef, useCallback, useContext, useEffect, useState } from "react";
+import {
+  PropsWithRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import styled from "styled-components";
 import { Context } from "../sideButton/context";
+import { useSelector } from "react-redux";
+import { selectTheme } from "../../store/themeSlice";
 
 const Wrapper = styled.div`
+  padding: 24px;
+  min-height: 100vh;
   .prompt-box {
-    height: 116px;
+    box-sizing: content-box;
+    height: 100px;
     width: 100%;
+    border-bottom: 8px solid #eeeeee60;
     overflow: hidden;
     overflow-y: hidden;
     text-overflow: ellipsis;
@@ -26,7 +38,6 @@ const Wrapper = styled.div`
       font-size: 15px;
       display: -webkit-box;
       -webkit-line-clamp: 4;
-
       -webkit-box-orient: vertical;
     }
     transition: all 0.5s;
@@ -46,6 +57,14 @@ const Wrapper = styled.div`
     100% {
       opacity: 1;
     }
+  }
+  &[class~="dark"] {
+    background-color: #343541;
+    .prompt-box {
+      background-color: #40414f;
+      border-bottom: 8px solid #40414f;
+    }
+    color: #f7f7f8;
   }
 `;
 
@@ -71,7 +90,7 @@ export function PrompList(
   // closeDrawer context
   const { closeDrawer } = useContext(Context);
   return (
-    <Wrapper>
+    <Wrapper className={useSelector(selectTheme) === "dark" ? "dark" : ""}>
       {props.showFloatBox && (
         <div className="float-box">
           <Input

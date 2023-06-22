@@ -45,10 +45,11 @@
 
 .set-btn-dark {
   background-color: #202123;
+  border-color: #45455f;
 }
 
 .set-btn-dark:hover {
-  border-color: #999999 !important;
+  border-color: #60616f !important;
 }
 
 .full-screen {
