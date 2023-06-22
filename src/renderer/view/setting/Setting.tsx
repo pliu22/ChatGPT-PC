@@ -79,7 +79,11 @@ const Wrapper = styled.div`
     &::-webkit-scrollbar-thumb:hover {
       background: #a7a7a8;
     }
-
+    .prompt-box {
+      background-color: #343541;
+      border: #66666650 1px solid;
+      color: #f7f7f8;
+    }
   }
 `;
 
