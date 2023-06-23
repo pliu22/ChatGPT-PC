@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, message } from "antd";
 import Setting from "../view/setting/Setting";
 import "./style.css";
 import ChatGPTFloat from "../view/chatGptFloat/ChatGptFloat";
@@ -13,6 +13,7 @@ export default function Routers() {
     "chatGptView" | "settingView" | "chatGptFloat"
   >("chatGptView");
 
+  const [messageApi, contextHolder] = message.useMessage();
   const ChatGPTWebRef = createRef<any>();
 
   const theme = useSelector(selectTheme);
@@ -20,7 +21,16 @@ export default function Routers() {
   function goSetting() {
     setCurrentView("settingView");
   }
+
+  let isChangedSetting = false;
   function goChatGptView() {
+    if (isChangedSetting) {
+      messageApi.open({
+        type: "error",
+        content: "有未保存的设置",
+      });
+      return;
+    }
     setCurrentView("chatGptView");
     ChatGPTWebRef.current.updateUserSetting();
   }
@@ -32,6 +42,7 @@ export default function Routers() {
 
   return (
     <>
+      {contextHolder}
       {currentView === "chatGptFloat" ? (
         <ChatGPTFloat />
       ) : (
@@ -61,7 +72,14 @@ export default function Routers() {
               display: currentView === "settingView" ? "block" : "none",
             }}
           >
-            <Setting />
+            <Setting
+              onChangeSetting={() => {
+                isChangedSetting = true;
+              }}
+              onSaveSetting={() => {
+                isChangedSetting = false;
+              }}
+            />
             <Button
               size="large"
               shape="circle"

@@ -25,10 +25,11 @@ const Wrapper = styled.div`
   }
   & > button:hover {
     transform: translateX(13px);
+    border-color: #66666695 !important;
   }
   &[class~="dark"] {
     & > button {
-      background-color: #343541;
+      background-color: #202123;
       border: #66666650 1px solid;
       color: #f7f7f8;
     }

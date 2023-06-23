@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Input, Modal, message } from "antd";
+import { Button, Input, Modal, Space, Switch, message } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import TextArea from "antd/es/input/TextArea";
@@ -63,10 +63,9 @@ const Wrapper = styled.div`
   }
   &[class~="dark"] {
     background-color: #343541;
-    .setting-title {
-      span {
-        color: #f7f7f8;
-      }
+    .prompt-box > div:first-child,
+    .setting-title > span {
+      color: #f7f7f8;
     }
     &::-webkit-scrollbar-track {
       background: #343541 !important;
@@ -84,7 +83,7 @@ const Wrapper = styled.div`
     .save-btn {
       background-color: #343541;
       border: #66666650 1px solid;
-      color: #f7f7f8 ;
+      color: #f7f7f8;
     }
     .prompts button:last-child,
     .save-btn {
@@ -107,9 +106,13 @@ const Title = styled.div`
   margin-bottom: 4px;
 `;
 
-export default function Setting() {
+export default function Setting(props: {
+  onChangeSetting: Function;
+  onSaveSetting: Function;
+}) {
   // antd message
   const [messageApi, contextHolder] = message.useMessage();
+
 
   const [userSetting, setuserSetting] = useState<any>();
   useEffect(() => {
@@ -123,9 +126,11 @@ export default function Setting() {
   const [newModelObject, setNewModelObject] = useState<{
     name: string;
     value: string;
+    isNeedSend: boolean;
   }>({
     name: "",
     value: "",
+    isNeedSend: false,
   });
   function changeNewModelName(event: any) {
     setNewModelObject({
@@ -139,19 +144,32 @@ export default function Setting() {
       value: event.target.value,
     });
   }
-  const handleNewModelOk = () => {
-    userSetting.chatGPT.prompts.push(newModelObject);
-    setuserSetting(userSetting);
-    setIsNewModelModalOpen(false);
+  function changeNewModelisNeedSend(val: boolean) {
+    console.log(event);
+    setNewModelObject({
+      ...newModelObject,
+      isNeedSend: val,
+    });
+  }
+  const openNewModelModal = () => {
+    setIsNewModelModalOpen(true);
     setNewModelObject({
       name: "",
       value: "",
+      isNeedSend: false,
     });
+  };
+  const handleNewModelOk = () => {
+    if(newModelObject.name != '' && newModelObject.value != '') {
+      userSetting.chatGPT.prompts.push(newModelObject)
+      props.onChangeSetting()
+      setuserSetting(userSetting);
+    }
+    setIsNewModelModalOpen(false);
   };
   const handleNewModelCancel = () => {
     setIsNewModelModalOpen(false);
   };
-
   // remove gpt prompt model
   function removeModel(index: number) {
     userSetting.chatGPT.prompts.splice(index, 1);
@@ -163,10 +181,12 @@ export default function Setting() {
   // save user setting
   function saveUserSetting() {
     window.localStorage.setItem("userSetting", JSON.stringify(userSetting));
+    console.log(userSetting);
     // ipc from render to main process
     // @ts-ignore
     window.electronAPI.saveUserSetting(userSetting);
     messageApi.success("保存成功");
+    props.onSaveSetting();
   }
 
   const theme = useSelector(selectTheme);
@@ -199,9 +219,7 @@ export default function Setting() {
             margin: "10px 0",
           }}
           block
-          onClick={() => {
-            setIsNewModelModalOpen(true);
-          }}
+          onClick={openNewModelModal}
         >
           添加新模型
         </Button>
@@ -224,14 +242,35 @@ export default function Setting() {
         style={{
           textAlign: "center",
         }}
+        cancelText="取消"
+        okText="确定"
       >
         <div>
           <Title>模型名称:</Title>
-          <Input onChange={changeNewModelName} />
+          <Input value={newModelObject.name} onChange={changeNewModelName} />
         </div>
+        <br /> {/** 换行符号 */}
         <div>
           <Title>模型prompt值:</Title>
-          <TextArea onChange={changeNewModelValue} />
+          <TextArea
+            value={newModelObject.value}
+            onChange={changeNewModelValue}
+          />
+        </div>
+        <br /> {/** 换行符号 */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Space>
+            <Title>是否发送prompt:</Title>
+            <Switch
+              checked={newModelObject.isNeedSend}
+              onChange={changeNewModelisNeedSend}
+            />
+          </Space>
         </div>
       </Modal>
       {contextHolder}

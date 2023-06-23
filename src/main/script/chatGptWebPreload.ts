@@ -1,36 +1,33 @@
 // In guest page.
 import { ipcRenderer } from "electron";
+import { customPromptValue } from "./model";
 
+let textInputDom: null | HTMLInputElement;
 
+function initTextInputDom() {
+  textInputDom = document.querySelector("#prompt-textarea");
+}
 
 // assemblePrompt in guest page
-ipcRenderer.on("assemblePrompt", (_, msg) => {
-  console.log("assemblePrompt", msg);
+ipcRenderer.on("assemblePrompt", (_, value: customPromptValue) => {
+  console.log("assemblePrompt", value);
   console.log(window);
 
-  let textInputDom: null | HTMLInputElement;
-
-  function initTextInputDom() {
-    textInputDom = document.querySelector("#prompt-textarea");
+  if (!textInputDom) {
+    initTextInputDom();
   }
+  // 使用js模拟输入事件，并且输入字符
+  textInputDom!.value = value.prompt;
+  const inputEvent = document.createEvent("HTMLEvents");
+  inputEvent.initEvent("input", true, true);
+  textInputDom!.dispatchEvent(inputEvent);
+  // 模拟点击按钮
 
-  const assemblePrompt = (val: string) => {
-    if (!textInputDom) {
-      initTextInputDom();
-    }
-    // 使用js模拟输入事件，并且输入字符
-    textInputDom!.value = val;
-    const inputEvent = document.createEvent("HTMLEvents");
-    inputEvent.initEvent("input", true, true);
-    textInputDom!.dispatchEvent(inputEvent);
-    // 模拟点击按钮
+  value.isNeedSend &&
     setTimeout(() => {
       const btn = document.querySelector("#prompt-textarea ~ button");
-      setTimeout((btn as any).click(), 1000)
+      setTimeout((btn as any).click(), 1000);
     });
-  };
-
-  assemblePrompt(msg);
 });
 
 function addNewModels() {
@@ -64,9 +61,9 @@ function observeTheme() {
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.type === "attributes") {
-          // rpc between main and guest page
-          // @ts-ignore
-          ipcRenderer.sendToHost("theme", mutation.target.className);
+        // rpc between main and guest page
+        // @ts-ignore
+        ipcRenderer.sendToHost("theme", mutation.target.className);
       }
     });
   });
@@ -81,5 +78,3 @@ document.addEventListener("DOMContentLoaded", () => {
   addNewModels();
   observeTheme();
 });
-
-

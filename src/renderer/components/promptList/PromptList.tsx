@@ -1,20 +1,18 @@
 import { Input } from "antd";
 import { FilterTwoTone } from "@ant-design/icons";
-import {
-  PropsWithRef,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { PropsWithRef, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Context } from "../sideButton/context";
 import { useSelector } from "react-redux";
 import { selectTheme } from "../../store/themeSlice";
+import { customPromptValue } from "../../../main/script/model";
 
 const Wrapper = styled.div`
   padding: 24px;
   min-height: 100vh;
+  .search-input:hover {
+    border-color: #66666695 !important;
+  }
   .prompt-box {
     box-sizing: content-box;
     height: 100px;
@@ -64,6 +62,18 @@ const Wrapper = styled.div`
       background-color: #40414f;
       border-bottom: 8px solid #40414f;
     }
+    .search-input {
+      background-color: #40414f;
+      border: #66666650 1px solid;
+      color: #f7f7f8;
+      input {
+        background-color: #40414f;
+        color: #f7f7f8;
+      }
+    }
+    .search-input:hover {
+      border: #9d9d9d50 1px solid;
+    }
     color: #f7f7f8;
   }
 `;
@@ -72,17 +82,17 @@ export function PrompList(
   props: PropsWithRef<{
     list: any;
     showFloatBox: boolean;
-    onAssemblePrompt: (value: string) => void;
+    onAssemblePrompt: (value: customPromptValue) => void;
   }>
 ) {
   const [promptList, setPromptList] = useState([]);
   useEffect(() => {
     setPromptList(props.list);
-  }, []);
+  }, [props.list]);
   function onSearch(val: string) {
     setPromptList(
       props.list?.filter((prop: { name: string; value: string }) => {
-        return prop.name?.includes(val) && prop.value?.includes(val);
+        return prop.name?.includes(val) || prop.value?.includes(val);
       })
     );
   }
@@ -94,6 +104,7 @@ export function PrompList(
       {props.showFloatBox && (
         <div className="float-box">
           <Input
+            className="search-input"
             onChange={(e) => {
               onSearch(e.target.value);
             }}
@@ -103,7 +114,10 @@ export function PrompList(
             return (
               <div
                 onClick={() => {
-                  props.onAssemblePrompt(item.value as string);
+                  props.onAssemblePrompt({
+                    prompt: item.value as string,
+                    isNeedSend: item.isNeedSend as boolean,
+                  });
                   closeDrawer();
                 }}
                 className="prompt-box"

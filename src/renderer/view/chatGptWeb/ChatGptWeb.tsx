@@ -9,9 +9,10 @@ import styled from "styled-components";
 import { Loader } from "../../components/Loader";
 import { SideContentPopupButton } from "../../components/sideButton/SideContentPopupButton";
 import { PrompList } from "../../components/promptList/PromptList";
-import { setTheme, selectTheme } from "../../store/themeSlice";
-import { useSelector, useDispatch } from 'react-redux'
+import { setTheme } from "../../store/themeSlice";
+import { useDispatch } from 'react-redux'
 import { SystemModel } from "../../../store/model";
+import { customPromptValue } from "../../../main/script/model";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -28,7 +29,6 @@ const Wrapper = styled.div`
 
 export const ChatGPTWeb = forwardRef((_, ref) => {
 
-  const theme = useSelector(selectTheme);
   const dispatch = useDispatch();
 
 
@@ -58,7 +58,8 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
     const userSetting = JSON.parse(
       window.localStorage.getItem("userSetting") || "{}"
     );
-    setPromptList(userSetting?.chatGPT?.prompts);
+    console.log('update', userSetting)
+    setPromptList([...userSetting?.chatGPT?.prompts]);
   };
 
   useImperativeHandle(ref, () => ({ updateUserSetting }));
@@ -96,7 +97,7 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
     });
   });
 
-  function assemblePrompt(value?: string) {
+  function assemblePrompt(value: customPromptValue) {
     webviewRef.current.send("assemblePrompt", value);
     console.log("assemblePrompt 1");
   }

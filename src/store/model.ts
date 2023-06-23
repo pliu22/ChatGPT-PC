@@ -6,6 +6,7 @@ export interface ConfigModel {
         propts: {
             name: string
             value: string
+            isNeedSend: boolean
         }[]
     },
     proxy: {

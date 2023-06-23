@@ -6,6 +6,7 @@ const store = new Store();
 
 export function getUserSetting() {
     const user = store.get('user')
+    console.log('user', user)
     if(!user) {
         store.set('user', {})
         store.set('user.customSetting', defalutSetting)
