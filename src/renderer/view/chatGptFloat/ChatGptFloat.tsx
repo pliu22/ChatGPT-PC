@@ -68,11 +68,7 @@ export default function ChatGPTFloat() {
             visibility: hidden;
             height: 0px;
             padding: 5px;
-          }
-          main > div:nth-child(2) > div[class~="px-3"] {
-            visibility: hidden;
-            height: 0px;
-            padding: 5px;
+            overflow: hidden;
           }
       `);
       webviewRef.current.addEventListener("ipc-message", (event: any) => {
