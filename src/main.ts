@@ -5,6 +5,9 @@ import createGPTFloatWindow from "./main/chatGptFloatView.ts";
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
 declare const MAIN_WINDOW_VITE_NAME: string;
 
+// rpc
+const rpc = new Rpc();
+
 // mainWindow
 let mainWindow: BrowserWindow | null = null;
 
@@ -75,24 +78,20 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // clear menubar
   mainWindow.setMenuBarVisibility(false);
 
-  // rpc
-  const rpc = new Rpc(mainWindow);
-
-  // ready-to-show life
-  // mainWindow.once("ready-to-show", () => {
-  //   rpc.loadUserSetting();
-  // });
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", createWindow);
+app.on("ready", () => {
+  rpc.init()
+  createWindow()
+});
 // InstanceLock
 const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {

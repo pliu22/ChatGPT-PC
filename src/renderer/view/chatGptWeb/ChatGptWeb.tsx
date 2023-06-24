@@ -53,17 +53,20 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
   }, []);
 
   // update userSetting
-  const updateUserSetting = () => {
+  const updateUserSetting = async () => {
     console.log("updateUserSetting");
     const userSetting = JSON.parse(
       window.localStorage.getItem("userSetting") || "{}"
     );
-    console.log('update', userSetting)
     // if not array type
     if (!Array.isArray(userSetting?.chatGPT?.prompts)) {
-      // reload window  note: this is a special bug which I dont know how to fix better, so I just reload the window to fix it temporarily
-      window.location.reload();
+      const value = await (window as any).electronAPI.onLoadUserSetting()
+      window.localStorage.setItem('userSetting', JSON.stringify(value))
+      setPromptList([...value?.chatGPT?.prompts]);
+      console.log('first update')
+      return
     }
+    console.log('update', userSetting)
     setPromptList([...userSetting?.chatGPT?.prompts]);
   };
 

@@ -12,9 +12,7 @@ import {
 } from "../store/index.ts";
 
 export class Rpc {
-  window: BrowserWindow;
-  constructor(window: BrowserWindow) {
-    this.window = window;
+  init() {
     ipcMain.on("save-user-setting", (_event, value) => {
       // store
       setUserSetting(value);
@@ -26,12 +24,8 @@ export class Rpc {
     ipcMain.handle("get-system-setting", () => {
       return getSystemSetting();
     });
-  }
-  loadUserSetting() {
-    const data = getUserSetting();
-    this.window.webContents.send("load-user-setting", data);
-    ipcMain.on("loaded-user-setting", (_event, value) => {
-      console.log("loaded-user-setting -> ", value); // print to node console
-    });
+    ipcMain.handle('load-user-setting', () => {
+      return getUserSetting();
+    })
   }
 }
