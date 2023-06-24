@@ -61,7 +61,7 @@ export default function ChatGPTFloat() {
     });
     webviewRef.current.addEventListener("did-finish-load", (event: any) => {
       webviewRef.current.style.opacity = "1";
-      webviewRef.current.openDevTools();
+      // webviewRef.current.openDevTools();
       // css
       webviewRef.current.insertCSS(`
           main > div:nth-child(3) > div[class~="px-3"] {
@@ -73,12 +73,6 @@ export default function ChatGPTFloat() {
       `);
       webviewRef.current.addEventListener("ipc-message", (event: any) => {
         console.log("ipc-message", event);
-      });
-      webviewRef.current.addEventListener('keydown', (event: any) => {
-        // prevent ctrl+r or command + r
-        if ((event.ctrlKey && event.key === 'r') || (event.metaKey && event.key === 'r')) {
-          event.preventDefault();
-        }
       });
     });
   });

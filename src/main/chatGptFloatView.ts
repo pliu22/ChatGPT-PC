@@ -44,6 +44,10 @@ export default function createGPTFloatWindow() {
     e.preventDefault()
   })
 
+  gptFloatWindow.on('ready-to-show', () => {
+    gptFloatWindow?.webContents.send('router-init', 'chatGptFloat');
+  })
+
   // gptFloatWindow.webContents.openDevTools();
 
   return gptFloatWindow
