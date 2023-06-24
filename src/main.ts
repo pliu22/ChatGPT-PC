@@ -37,7 +37,7 @@ const createWindow = () => {
   });
 
   // tray
-  tray = new Tray(path.join(__dirname, "logo.png"));
+  tray = new Tray(path.join(__dirname, "logo@2x.png"));
   const contextMenu = Menu.buildFromTemplate([
     {
       label: "打开主界面",
@@ -84,9 +84,9 @@ const createWindow = () => {
   const rpc = new Rpc(mainWindow);
 
   // ready-to-show life
-  mainWindow.once("ready-to-show", () => {
-    rpc.loadUserSetting();
-  });
+  // mainWindow.once("ready-to-show", () => {
+  //   rpc.loadUserSetting();
+  // });
 };
 
 // This method will be called when Electron has finished

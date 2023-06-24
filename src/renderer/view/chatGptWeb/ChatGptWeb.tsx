@@ -45,8 +45,8 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
     updateUserSetting();
 
     // async function 
-    ;(async () => {
-      const {theme: loctalTheme} = await (window as any).electronAPI.getSystemSetting();
+    ; (async () => {
+      const { theme: loctalTheme } = await (window as any).electronAPI.getSystemSetting();
       dispatch(setTheme(loctalTheme))
       window.localStorage.setItem("theme", loctalTheme);
     })()
@@ -59,6 +59,11 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
       window.localStorage.getItem("userSetting") || "{}"
     );
     console.log('update', userSetting)
+    // if not array type
+    if (!Array.isArray(userSetting?.chatGPT?.prompts)) {
+      // reload window  note: this is a special bug which I dont know how to fix better, so I just reload the window to fix it temporarily
+      window.location.reload();
+    }
     setPromptList([...userSetting?.chatGPT?.prompts]);
   };
 
@@ -75,10 +80,10 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
       // webviewRef.current.openDevTools();
       webviewRef.current.addEventListener("ipc-message", (event: any) => {
         // change theme
-        if(event.channel === "theme") {
+        if (event.channel === "theme") {
           // set redux and main process store
           dispatch(setTheme(event.args[0]));
-          const systemSetting:SystemModel = {
+          const systemSetting: SystemModel = {
             theme: event.args[0]
           };
           (window as any).electronAPI.saveSystemSetting(systemSetting);
