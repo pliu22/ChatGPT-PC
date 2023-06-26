@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
-import { Loader } from "../../components/Loader";
+import { Loader } from "../../components/loader";
 
 const Wrapper = styled.div`
   width: 100%;
