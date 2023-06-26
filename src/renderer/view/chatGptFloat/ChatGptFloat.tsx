@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Loader } from "../../components/Loader";
 
@@ -44,16 +44,6 @@ const DragBar = styled.div`
 export default function ChatGPTFloat() {
   // webviewDom
   let webviewRef = useRef<any>(null);
-
-  const [promptList, setPromptList] = useState<any>();
-
-  useEffect(() => {
-    // update userSetting
-    const userSetting = JSON.parse(
-      window.localStorage.getItem("userSetting") || "{}"
-    );
-    setPromptList(userSetting?.chatGPT?.prompts);
-  }, []);
 
   useEffect(() => {
     webviewRef.current.addEventListener("did-fail-load", (error: Error) => {

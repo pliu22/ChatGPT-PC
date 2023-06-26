@@ -24,7 +24,7 @@ export class Rpc {
     ipcMain.handle("get-system-setting", () => {
       return getSystemSetting();
     });
-    ipcMain.handle('load-user-setting', () => {
+    ipcMain.handle('load-user-setting', async () => {
       return getUserSetting();
     })
   }

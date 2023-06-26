@@ -1,10 +1,12 @@
 import Store from 'electron-store'
 import defalutSetting from './defalutSetting.json'
 import { ConfigModel, SystemModel } from './model'
+import { getOnlinePrompts } from './update';
 
 const store = new Store();
 
-export function getUserSetting() {
+export async function getUserSetting() {
+    console.log('getUserSetting')
     const user = store.get('user')
     if(!user) {
         store.set('user', {})
@@ -16,6 +18,17 @@ export function getUserSetting() {
         store.set('user.customSetting', defalutSetting)
         return defalutSetting
     }
+    console.log('getUserSetting2')
+
+    // diff propmts with online
+    const onlinePrompts = await getOnlinePrompts()
+    const localPrompts = data.chatGPT.prompts as any[]
+    console.log('online',onlinePrompts)
+    JSON.parse(onlinePrompts).forEach((item: any) => {
+        if(!localPrompts.find((i: any) => i.name === item.name)) {
+            localPrompts.push(item)
+        }
+    })
     return data;
 }
 

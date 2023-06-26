@@ -78,7 +78,7 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // clear menubar
   mainWindow.setMenuBarVisibility(false);
@@ -91,6 +91,7 @@ const createWindow = () => {
 app.on("ready", () => {
   rpc.init()
   createWindow()
+
 });
 // InstanceLock
 const gotTheLock = app.requestSingleInstanceLock();

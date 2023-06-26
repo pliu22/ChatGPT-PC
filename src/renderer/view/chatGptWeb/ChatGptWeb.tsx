@@ -58,10 +58,13 @@ export const ChatGPTWeb = forwardRef((_, ref) => {
     const userSetting = JSON.parse(
       window.localStorage.getItem("userSetting") || "{}"
     );
+    const expiredTime = window.localStorage.getItem("userSettingExpired");
     // if not array type
-    if (!Array.isArray(userSetting?.chatGPT?.prompts)) {
+    if (!Array.isArray(userSetting?.chatGPT?.prompts) || (expiredTime && Date.now() > Number(expiredTime))) {
       const value = await (window as any).electronAPI.onLoadUserSetting()
       window.localStorage.setItem('userSetting', JSON.stringify(value))
+      // set a expired time
+      window.localStorage.setItem('userSettingExpired', JSON.stringify(Date.now() + 1000 * 60 * 60 * 24))
       setPromptList([...value?.chatGPT?.prompts]);
       console.log('first update')
       return
