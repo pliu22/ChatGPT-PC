@@ -1,4 +1,4 @@
-# ChatGPT Client
+# ChatGPT PC Client
 
 Augmented ChatGPT (Windows, Mac, Linux Desktop Application). ChatGPT桌面端增强版
 
